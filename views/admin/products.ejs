@@ -1,0 +1,81 @@
+<%- include('../includes/head.ejs') %>
+    <link rel="stylesheet" href="/css/product.css">
+    </head>
+
+    <body>
+        <%- include('../includes/navigation.ejs') %>
+
+            <main>
+                <% if (products.length > 0) { %>
+                    <div class="grid">
+                        <% for (let product of products) { %>
+                            <article class="card product-item">
+                                <header class="card__header">
+                                    <h1 class="product__title">
+                                        <%= product.title %>
+                                    </h1>
+                                </header>
+                                <div class="card__image">
+                                    <img src="<%= product.imageUrl %>" alt="<%= product.title %>">
+                                </div>
+                                <div class="card__content">
+                                    <h2 class="product__price">
+                                        $<%= product.price %>
+                                    </h2>
+                                    <p class="product__description">
+                                        <%= product.description %>
+                                    </p>
+                                </div>
+                                <div class="card__actions">
+
+                                    <!-- 
+
+                                        exports.getEditProduct = (req, res, next) => {
+
+                                            // We can always check the query by using 'req.query'.
+                                            //      'req.query' is managed by express, by the way.
+                                            // Therefore, it can track down 'edit true'and title=new' of /12345?edit=true&title=new
+                                            console.log('req.query: ', req.query); // => req.query:  { edit: 'true', new: 'title' }
+
+                                            // Based on '/12345?edit=true&title=new'
+                                            // the value of the down below is String "true" instead of Boolean true
+                                            const editMode = req.query.edit;
+                                            console.log('editMode:', editMode);
+
+                                            if(!editMode) return res.redirect('/');
+
+                                            const id = req.params.id;
+                                            Product.findProductById(id, product => {
+
+                                                // product is an array element
+                                                if(!product) res.redirect('/');
+
+                                                res.render('admin/editProducts', {
+                                                    docTitle: 'Edit Product',
+                                                    path: '/admin/editProducts',
+                                                    // to differentiate getAddProduct
+                                                    editing: editMode,
+                                                    product
+                                                });
+                                                
+                                            });
+
+                                        }
+                                        *****************************************************************
+                                        If "edit=true" is not available, it the code of controller above redirects to '/' 
+                                     -->
+                                    <a href="/admin/editProduct/<%= product._id %>?edit=true" class="btn">Edit</a>
+                                    <form action="/admin/deleteProduct" method="POST">
+                                        <input type="hidden" value="<%= product._id %>" name="id">
+                                        <button class="btn" type="submit">Delete</button>
+                                    </form>
+
+                                </div>
+                            </article>
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <h1>No Products Found!</h1>
+                        <% } %>
+            </main>
+            <%- include('../includes/end.ejs') %>

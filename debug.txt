@@ -1,0 +1,41 @@
+
+
+8.	Debug for Logical Error
+Debug Console -> at the end of the terminal, write a command that executed in the code.
+7.‘debugger’ Update
+
+-	Menu -> Debug -> Add Configuration
+-	Must use nodemon in global
+-	
+-	(할 수 있는 일)
+-	옆에 창에서 현재 variable 상태 확인
+-	옆에 창 Variables에서 value 직접 변경 및 결과 값 확인
+-	Debug terminal에서 먼저 함수 값 처리 및 결과 확인
+-	이전 line을 breakpoint로 설정 하고PLAY Button눌러서 다시 시작
+-	-g nodemon사용해서 값 변경 및 자동으로 변경된 값 확인
+-	Local nodemon 은 반드시 스톱하고 debugmode에서 시작 및 브라우저에서 값입력
+
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceFolder}/firstServer\\app2.js",
+            "restart": true,
+            "runtimeExecutable": "nodemon",
+		// need to install nodemon globally
+		// we can still use debug console, by the way.
+"console": "integratedTerminal"
+
+        }
+    ]
+}
+
+9.	Wrap up
+ 

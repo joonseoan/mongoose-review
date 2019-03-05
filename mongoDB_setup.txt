@@ -1,0 +1,28 @@
+1. visit mongoDB web
+2. For local mongoDB server, for cloud base, it will use mongoDB atlas.
+3. Select the cloud base mongoDB. (mongoDB Atlas)
+4. Create a new cluster or 'build the first cluster'
+5. Select AWS, and N.Virginia (as default is)
+6. cluster tier : MO (For free...)
+7. And leave others as default is...
+8. Click the button, 'create a new cluster'
+9. Setup Security : adding a new user
+10. Select 'Read and write toany database'
+11. Setup whiltelist ip list
+12. Click 'add ip address'
+13. Click 'Add Current IP ADDRESS'
+14. Click 'Confirm'
+15. Click 'Connect' your cluster then
+16. In the popup window, click 'Connect Your Application'
+17. Select 'Short SRV connection string (For drivers compatible with MongoDB 3.6+)'
+18. Copy SRV address 
+19. Then get back to VSCODE AND then setup mongo database
+10. npm i --save mongodb
+11. 
+
+
+mongodb+srv://joon:<PASSWORD>@firstatlas-drwhc.mongodb.net/test?retryWrites=true
+
+[mongodb compass]
+1. download compass in mongodb web
+2. 
