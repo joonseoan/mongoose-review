@@ -1,4 +1,5 @@
 const Product = require('../models/product');
+const Order = require('../models/order');
 
 exports.getProducts = (req, res, next) => {
     Product.find()
@@ -71,12 +72,9 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
 
-    // We must use req.user.getCart();
     req.user.getCart()
-        .then(products => {
 
-            console.log('reallty ------------------->', products)
-            
+        .then(products => {
             res.render('shop/cart', {
                 docTitle: 'Your Cart',
                 path: '/cart',
@@ -85,7 +83,24 @@ exports.getCart = (req, res, next) => {
 
         })
         .catch(e => console.log(e));
-    
+
+}
+
+exports.postCartDeleteItem = ( req, res, next) => {
+
+    const { id }= req.body;
+
+    req.user.deleteItemFromCart(id)
+        .then(() => {
+
+            res.redirect('/cart');
+
+        })
+        .catch(e => {
+
+            throw new Error('Unable to delete.');
+        
+        });
 }
 
 exports.postOrder = (req, res, next) => {
@@ -104,7 +119,6 @@ exports.getOrders = (req, res, next) => {
 
     req.user.getOrders()
         .then(orders => {
-
             res.render('shop/orders', {
                 docTitle: 'Your Orders',
                 path: '/orders',
@@ -114,6 +128,7 @@ exports.getOrders = (req, res, next) => {
         .catch(e => console.log(e));    
 
 }
+
 
 
 

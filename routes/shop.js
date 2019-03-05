@@ -27,13 +27,13 @@ router.get('/cart', getCart);
 // to add a product to '/cart'
 router.post('/cart', postCart);
 
-// // to delete a product only in '/shop/cart'
-// router.post('/cartDeleteItem', postCartDeleteItem);
+// to delete a product only in '/shop/cart'
+router.post('/cartDeleteItem', postCartDeleteItem);
 
-// // to add user-order
-// router.post('/createOrders', postOrder);
+// to add user-order
+router.post('/createOrders', postOrder);
 
-// // // to display user-order
-// router.get('/orders', getOrders);
+// // to display user-order
+router.get('/orders', getOrders);
 
 module.exports = router;

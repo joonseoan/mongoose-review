@@ -4,6 +4,7 @@
     <body>
         <%- include('../includes/navigation.ejs') %>
         <main>
+            <% console.log('orders ====> ', orders) %>
             <% if (orders.length === 0) { %>
                 <h1>Nothing there!</h1>
             <% } else { %>
@@ -12,9 +13,9 @@
                         <li>
                             <h1># <%= order._id %></h1>
                             <ul>
-                                <% order.items.forEach(item => { %>
+                                <% order.products.forEach(item => { %>
                                     <li>
-                                        <%= item.title %> (<%= item.qty %>)
+                                        <%= item.productData.product.title %> (<%= item.productData.qty %>)
                                     </li>
                                 <% }) %>
                             </ul>

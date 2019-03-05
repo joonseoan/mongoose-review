@@ -1,6 +1,20 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
+const Order = require('./order');
+// Just bear in mind that 
+//  whenever a new object group is created,
+//  new ObjectId is created. 
+
+// For instance,
+/*     
+    cart:Object
+    items: Array
+    0: Object ====================> subgroup object
+        _id:5c7ea818a3783e01c8adbf79 =======> subgroup objectId
+        productId: 5c7e97ef83d9e416a4da6125
+        qty : 2
+*/
 const userSchema= new Schema({
     
     username: {
@@ -12,6 +26,7 @@ const userSchema= new Schema({
         required: true
     },
     cart: {
+        // [{}] : subgroup object
         items: [{
             productId: {
                 type: Schema.Types.ObjectId,
@@ -23,7 +38,8 @@ const userSchema= new Schema({
                 required: true
             }
         }]
-    }
+    },
+
 
 });
 
@@ -66,6 +82,78 @@ userSchema.methods.addToCart = function(product) {
     return this.save();
 
 }
+
+userSchema.methods.getCart = function() {
+    
+    // must study populate and must compare mongoDB getCart again!!!
+    console.log('fuck~~~~~~~~~~~~~`')
+
+    // let updatedCart = [];
+
+    return this
+        .populate('cart.items.productId')
+        // must use execPopulate, not exec()
+        .execPopulate()
+        .then(user => {
+
+           // if(user.cart.items) updatedCart = user.cart.items;;
+            return user.cart.items;
+        })
+        .catch(e => { throw new Error('Failed to get cart items.'); });
+
+}
+
+userSchema.methods.deleteItemFromCart = function(prodId) {
+
+    const updatedCartItems = this.cart.items.filter(item => 
+    prodId.toString() !== item.productId.toString());
+
+    this.cart.items = updatedCartItems;
+
+    return this.save();
+
+}
+
+userSchema.methods.addOrder = function() {
+
+    return this.populate('cart.items.productId')
+        // must use execPopulate, not exec()
+        .execPopulate()
+        .then(user => {
+            return new Order({
+                user: {
+                    username: this.username,
+                    userId: this
+                },
+                products: user.cart.items.map(product => {
+                    return { productData: { product: product.productId._doc, qty: product.qty }};
+                })      
+            }).save();
+
+        })
+        .then(() => {
+            this.cart.items = [];
+            return this.save();
+        })
+        .catch(e => { throw new Error('Unable to add your order.'); });    
+
+}
+
+userSchema.methods.getOrders = function() {
+
+    console.log(this._id)
+
+    return Order.find({ 'user.userId' : this._id })
+        .then(orders => {
+
+            console.log(orders)
+
+            return orders;
+        })
+        .catch(e => { throw new Error('Unable to find your orders.'); });
+
+}
+
 
 module.exports = mongoose.model('User', userSchema);
 

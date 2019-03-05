@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-    User.findById('5c7ddbd4ae4d940e347f4662')
+    User.findById('5c7ee288bb1f3e1a58455670')
         .then(user => {
             req.user = user;
             console.log('User is successfully created.');
